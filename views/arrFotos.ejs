@@ -8,6 +8,7 @@
     <th>Descripción</th>
     <th>Ruta</th>
     <th>Fecha de creación</th>
+    <th>Etiqueta</th>
     </tr>
     </thead>
     <tbody>
@@ -20,6 +21,11 @@
     <td><%=
     foto.createdAt.toLocaleDateString('en-US')
     %></td>
+    <td>
+        <% foto.etiqueta.forEach((etq, index) => { %>
+            <%= etq.texto %><%= index < foto.etiqueta.length - 1 ? ', ' : '' %>
+        <% }); %>
+    </td>
     </tr>
     <% }); %>
     </tbody>
