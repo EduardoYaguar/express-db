@@ -30,6 +30,28 @@ router.get('/findAllbyRate/json', function(req,res,next){
     .catch(error => res.status(400).send(error))
 })
 
+router.get('/findAllbyRate/view', function(req,res,next){
+    let lower = parseFloat(req.query.lower);
+    let higher = parseFloat(req.query.higher);
+    Foto.findAll({
+        attributes: {exclude: ["updatedAt"]},
+        include:[{
+            model: Etiqueta,
+            attributes: ['texto'],
+                through: {attributes:[]},
+        }],
+        where: {
+            calificacion:{
+                [Op.between]:[lower, higher]
+            }
+        }
+    })
+    .then(fotos => {
+        res.render('fotos-rate', {title: 'fotos-rate', arrFotos:fotos});
+    })
+    .catch(error => res.status(400).send(error))
+})
+
 router.get('/findAllById/:id/json', function(req,res,next){
     let id = parseInt(req.params.id);
     Foto.findAll({
